@@ -1,0 +1,11 @@
+venv/
+build/
+__pycache__/
+.ipynb_checkpoints/
+ext/
+sims/
+hmf_*
+muscleups.pyc
+cosmo.pyc
+gadgetutils.pyc
+src/*.o
