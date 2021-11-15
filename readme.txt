@@ -11,3 +11,8 @@ to install
 
 >> pip install ipykernel
 >> python -m ipykernel install --user --name=muscleups
+
+
+to compile
+>> make
+>> make -f MafileMAS
