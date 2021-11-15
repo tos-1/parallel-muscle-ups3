@@ -1,0 +1,38 @@
+FILES1 := mas.c _mas.c 
+SRCS1 := $(addprefix src/,$(FILES1))
+
+FILES2 := masHalos.c _masHalos.c 
+SRCS2 := $(addprefix src/,$(FILES2))
+
+HEADERS1 := mas.h
+INCL1 := $(addprefix src/,$(HEADERS1))
+
+HEADERS2 := masHalos.h
+INCL2 := $(addprefix src/,$(HEADERS2))
+
+OBJS1 := $(SRCS1:.c=.o)
+SHARED1 := _mas.so
+SHARED1 := $(addprefix ext/,$(SHARED1))
+
+OBJS2 := $(SRCS2:.c=.o)
+SHARED2 := _masHalos.so
+SHARED2 := $(addprefix ext/,$(SHARED2))
+
+PYTHON := python
+
+# python3.6-config --ldflags and --cflags 
+PY_INCL  := -I/usr/include/python3.6m
+SO := -shared
+CC = gcc
+CFLAGS = -std=c99 -fPIC -Wall -O2 
+LIBS = -lm -lpthread -ldl -lutil -lpython3.6m
+
+%.o: %.c $(INCL1) $(INCL2)
+	$(CC) $(CFLAGS) $(PY_INCL) -c $< -o $@
+
+$(SHARED1) $(SHARED2) : $(OBJS1) $(OBJS2)
+	$(CC) $(OBJS1) $(LIBS) $(SO) -o $(SHARED1)
+	$(CC) $(OBJS2) $(LIBS) $(SO) -o $(SHARED2)
+
+clean:
+	rm -f $(OBJS1) $(SHARED1) $(OBJS2) $(SHARED2)
